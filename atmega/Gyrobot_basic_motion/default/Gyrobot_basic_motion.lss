@@ -3,25 +3,21 @@ Gyrobot_basic_motion.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000a6  00000000  00000000  00000054  2**1
+  0 .text         000000e4  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .debug_aranges 00000020  00000000  00000000  000000fa  2**0
+  1 .debug_aranges 00000020  00000000  00000000  00000138  2**0
                   CONTENTS, READONLY, DEBUGGING
-  2 .debug_pubnames 0000001b  00000000  00000000  0000011a  2**0
+  2 .debug_pubnames 00000050  00000000  00000000  00000158  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_info   00000152  00000000  00000000  00000135  2**0
+  3 .debug_info   0000021f  00000000  00000000  000001a8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_abbrev 000000d5  00000000  00000000  00000287  2**0
+  4 .debug_abbrev 000000c7  00000000  00000000  000003c7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_line   00000180  00000000  00000000  0000035c  2**0
+  5 .debug_line   00000217  00000000  00000000  0000048e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_frame  00000020  00000000  00000000  000004dc  2**2
+  6 .debug_frame  00000070  00000000  00000000  000006a8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_str    000000e2  00000000  00000000  000004fc  2**0
-                  CONTENTS, READONLY, DEBUGGING
-  8 .debug_loc    00000080  00000000  00000000  000005de  2**0
-                  CONTENTS, READONLY, DEBUGGING
-  9 .debug_ranges 00000048  00000000  00000000  0000065e  2**0
+  7 .debug_str    00000103  00000000  00000000  00000718  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -56,100 +52,169 @@ Disassembly of section .text:
   5a:	d4 e0       	ldi	r29, 0x04	; 4
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
-  64:	0c 94 51 00 	jmp	0xa2	; 0xa2 <_exit>
+  60:	0e 94 67 00 	call	0xce	; 0xce <main>
+  64:	0c 94 70 00 	jmp	0xe0	; 0xe0 <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-0000006c <main>:
-#include<avr/io.h>
+0000006c <forward>:
 #include<util/delay.h>
 
-void main ()
+
+void forward()	// verified
 {
-	DDRB = 0b00010000;
-  6c:	80 e1       	ldi	r24, 0x10	; 16
-  6e:	87 bb       	out	0x17, r24	; 23
-	DDRD = 0b10110000;
-  70:	80 eb       	ldi	r24, 0xB0	; 176
-  72:	81 bb       	out	0x11, r24	; 17
-	
-	while (1) 
-	{
-		PORTB = 0b00010000;
-  74:	40 e1       	ldi	r20, 0x10	; 16
+	PORTB = 0b00001000;
+  6c:	88 e0       	ldi	r24, 0x08	; 8
+  6e:	88 bb       	out	0x18, r24	; 24
+	PORTD = 0b00010000;
+  70:	80 e1       	ldi	r24, 0x10	; 16
+  72:	82 bb       	out	0x12, r24	; 18
+
+}
+  74:	08 95       	ret
+
+00000076 <backward>:
+
+void backward()		// verified
+{
+	PORTB = 0b00000000;
+  76:	18 ba       	out	0x18, r1	; 24
+	PORTD = 0b10100000;
+  78:	80 ea       	ldi	r24, 0xA0	; 160
+  7a:	82 bb       	out	0x12, r24	; 18
+}
+  7c:	08 95       	ret
+
+0000007e <stop>:
+
+void stop()		// hard stop
+{
+	PORTB = 0b00001000;
+  7e:	88 e0       	ldi	r24, 0x08	; 8
+  80:	88 bb       	out	0x18, r24	; 24
+	PORTD = 0b10110000;
+  82:	80 eb       	ldi	r24, 0xB0	; 176
+  84:	82 bb       	out	0x12, r24	; 18
+  86:	80 e1       	ldi	r24, 0x10	; 16
+  88:	97 e2       	ldi	r25, 0x27	; 39
     milliseconds can be achieved.
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
-  76:	29 e1       	ldi	r18, 0x19	; 25
-  78:	30 e0       	ldi	r19, 0x00	; 0
-		PORTD = 0b00010000;
+  8a:	29 e1       	ldi	r18, 0x19	; 25
+  8c:	30 e0       	ldi	r19, 0x00	; 0
+  8e:	f9 01       	movw	r30, r18
+  90:	31 97       	sbiw	r30, 0x01	; 1
+  92:	f1 f7       	brne	.-4      	; 0x90 <stop+0x12>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+  94:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+  96:	d9 f7       	brne	.-10     	; 0x8e <stop+0x10>
+	_delay_ms(1000);
+}
+  98:	08 95       	ret
 
-		_delay_ms(1000);
+0000009a <left>:
 
-		PORTB = 0b00000000;
-		PORTD = 0b10100000;
-  7a:	50 ea       	ldi	r21, 0xA0	; 160
-	DDRB = 0b00010000;
+void left()
+{
+	PORTB = 0b00000000;
+  9a:	18 ba       	out	0x18, r1	; 24
+	PORTD = 0b00010000;
+  9c:	80 e1       	ldi	r24, 0x10	; 16
+  9e:	82 bb       	out	0x12, r24	; 18
+  a0:	80 e4       	ldi	r24, 0x40	; 64
+  a2:	9c e9       	ldi	r25, 0x9C	; 156
+  a4:	29 e1       	ldi	r18, 0x19	; 25
+  a6:	30 e0       	ldi	r19, 0x00	; 0
+  a8:	f9 01       	movw	r30, r18
+  aa:	31 97       	sbiw	r30, 0x01	; 1
+  ac:	f1 f7       	brne	.-4      	; 0xaa <left+0x10>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+  ae:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+  b0:	d9 f7       	brne	.-10     	; 0xa8 <left+0xe>
+	_delay_ms(4000);
+}
+  b2:	08 95       	ret
+
+000000b4 <right>:
+
+void right()
+{
+	PORTB = 0b00001000;
+  b4:	88 e0       	ldi	r24, 0x08	; 8
+  b6:	88 bb       	out	0x18, r24	; 24
+	PORTD = 0b00000000;
+  b8:	12 ba       	out	0x12, r1	; 18
+  ba:	80 e4       	ldi	r24, 0x40	; 64
+  bc:	9c e9       	ldi	r25, 0x9C	; 156
+  be:	29 e1       	ldi	r18, 0x19	; 25
+  c0:	30 e0       	ldi	r19, 0x00	; 0
+  c2:	f9 01       	movw	r30, r18
+  c4:	31 97       	sbiw	r30, 0x01	; 1
+  c6:	f1 f7       	brne	.-4      	; 0xc4 <right+0x10>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+  c8:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+  ca:	d9 f7       	brne	.-10     	; 0xc2 <right+0xe>
+	_delay_ms(4000);
+}
+  cc:	08 95       	ret
+
+000000ce <main>:
+
+
+
+void main ()
+{
+	DDRB = 0b00001000;
+  ce:	88 e0       	ldi	r24, 0x08	; 8
+  d0:	87 bb       	out	0x17, r24	; 23
 	DDRD = 0b10110000;
+  d2:	80 eb       	ldi	r24, 0xB0	; 176
+  d4:	81 bb       	out	0x11, r24	; 17
 	
-	while (1) 
-	{
-		PORTB = 0b00010000;
-  7c:	48 bb       	out	0x18, r20	; 24
-		PORTD = 0b00010000;
-  7e:	42 bb       	out	0x12, r20	; 18
-  80:	80 e1       	ldi	r24, 0x10	; 16
-  82:	97 e2       	ldi	r25, 0x27	; 39
-  84:	f9 01       	movw	r30, r18
-  86:	31 97       	sbiw	r30, 0x01	; 1
-  88:	f1 f7       	brne	.-4      	; 0x86 <main+0x1a>
-		__ticks = (uint16_t) (__ms * 10.0);
-		while(__ticks)
-		{
-			// wait 1/10 ms
-			_delay_loop_2(((F_CPU) / 4e3) / 10);
-			__ticks --;
-  8a:	01 97       	sbiw	r24, 0x01	; 1
-		__ticks = 1;
-	else if (__tmp > 65535)
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-		while(__ticks)
-  8c:	d9 f7       	brne	.-10     	; 0x84 <main+0x18>
+	while(1) {
+	
+	left();
+  d6:	0e 94 4d 00 	call	0x9a	; 0x9a <left>
 
-		_delay_ms(1000);
+	stop();
+  da:	0e 94 3f 00 	call	0x7e	; 0x7e <stop>
+  de:	fb cf       	rjmp	.-10     	; 0xd6 <main+0x8>
 
-		PORTB = 0b00000000;
-  8e:	18 ba       	out	0x18, r1	; 24
-		PORTD = 0b10100000;
-  90:	52 bb       	out	0x12, r21	; 18
-  92:	80 e1       	ldi	r24, 0x10	; 16
-  94:	97 e2       	ldi	r25, 0x27	; 39
-  96:	f9 01       	movw	r30, r18
-  98:	31 97       	sbiw	r30, 0x01	; 1
-  9a:	f1 f7       	brne	.-4      	; 0x98 <main+0x2c>
-		{
-			// wait 1/10 ms
-			_delay_loop_2(((F_CPU) / 4e3) / 10);
-			__ticks --;
-  9c:	01 97       	sbiw	r24, 0x01	; 1
-		__ticks = 1;
-	else if (__tmp > 65535)
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-		while(__ticks)
-  9e:	d9 f7       	brne	.-10     	; 0x96 <main+0x2a>
-  a0:	ed cf       	rjmp	.-38     	; 0x7c <main+0x10>
+000000e0 <_exit>:
+  e0:	f8 94       	cli
 
-000000a2 <_exit>:
-  a2:	f8 94       	cli
-
-000000a4 <__stop_program>:
-  a4:	ff cf       	rjmp	.-2      	; 0xa4 <__stop_program>
+000000e2 <__stop_program>:
+  e2:	ff cf       	rjmp	.-2      	; 0xe2 <__stop_program>

@@ -17,7 +17,7 @@ signature        0x00840000         0x00000400         rw !x
 Linker script and memory map
 
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
-LOAD Gyrobot_basic_motion.o
+LOAD keypress_wireless_motion.o
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
@@ -112,7 +112,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000       0xe4
+.text           0x00000000      0x15c
  *(.vectors)
  .vectors       0x00000000       0x54 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
                 0x00000000                __vectors
@@ -185,22 +185,24 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00000068                __vector_16
                 0x00000068                __vector_18
                 0x00000068                __vector_20
- .text          0x0000006c       0x74 Gyrobot_basic_motion.o
-                0x000000b4                right
-                0x0000009a                left
-                0x0000006c                forward
-                0x00000076                backward
-                0x000000ce                main
-                0x0000007e                stop
- .text          0x000000e0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x000000e0                . = ALIGN (0x2)
+ .text          0x0000006c       0xec keypress_wireless_motion.o
+                0x000000a8                right
+                0x0000007c                USARTReadChar
+                0x000000a0                left
+                0x0000006c                USARTInit
+                0x00000084                forward
+                0x0000008e                backward
+                0x000000b0                main
+                0x00000096                stop
+ .text          0x00000158        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00000158                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x000000e0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x000000e0                . = ALIGN (0x2)
+ .text.libgcc   0x00000158        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00000158                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000000e0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x000000e0                exit
-                0x000000e0                _exit
+ .fini9         0x00000158        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00000158                exit
+                0x00000158                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -219,15 +221,15 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000000e0        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000158        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000000e4                _etext = .
+                0x0000015c                _etext = .
 
-.data           0x00800060        0x0 load address 0x000000e4
+.data           0x00800060        0x0 load address 0x0000015c
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
- .data          0x00800060        0x0 Gyrobot_basic_motion.o
+ .data          0x00800060        0x0 keypress_wireless_motion.o
  .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.data*)
  *(.rodata)
@@ -241,13 +243,13 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00800060                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
- .bss           0x00800060        0x0 Gyrobot_basic_motion.o
+ .bss           0x00800060        0x0 keypress_wireless_motion.o
  .bss           0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.bss*)
  *(COMMON)
                 0x00800060                PROVIDE (__bss_end, .)
-                0x000000e4                __data_load_start = LOADADDR (.data)
-                0x000000e4                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000015c                __data_load_start = LOADADDR (.data)
+                0x0000015c                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800060        0x0
                 0x00800060                PROVIDE (__noinit_start, .)
@@ -308,40 +310,44 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .debug_aranges  0x00000000       0x20
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x20 Gyrobot_basic_motion.o
+                0x00000000       0x20 keypress_wireless_motion.o
 
 .debug_pubnames
-                0x00000000       0x50
+                0x00000000       0x70
  *(.debug_pubnames)
  .debug_pubnames
-                0x00000000       0x50 Gyrobot_basic_motion.o
+                0x00000000       0x70 keypress_wireless_motion.o
 
-.debug_info     0x00000000      0x21f
+.debug_info     0x00000000      0x398
  *(.debug_info)
- .debug_info    0x00000000      0x21f Gyrobot_basic_motion.o
+ .debug_info    0x00000000      0x398 keypress_wireless_motion.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000       0xc7
+.debug_abbrev   0x00000000      0x151
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0xc7 Gyrobot_basic_motion.o
+ .debug_abbrev  0x00000000      0x151 keypress_wireless_motion.o
 
-.debug_line     0x00000000      0x217
+.debug_line     0x00000000      0x38a
  *(.debug_line)
- .debug_line    0x00000000      0x217 Gyrobot_basic_motion.o
+ .debug_line    0x00000000      0x38a keypress_wireless_motion.o
 
-.debug_frame    0x00000000       0x70
+.debug_frame    0x00000000       0x90
  *(.debug_frame)
- .debug_frame   0x00000000       0x70 Gyrobot_basic_motion.o
+ .debug_frame   0x00000000       0x90 keypress_wireless_motion.o
 
-.debug_str      0x00000000      0x103
+.debug_str      0x00000000      0x128
  *(.debug_str)
- .debug_str     0x00000000      0x103 Gyrobot_basic_motion.o
-                                0x137 (size before relaxing)
+ .debug_str     0x00000000      0x128 keypress_wireless_motion.o
+                                0x161 (size before relaxing)
 
-.debug_loc
+.debug_loc      0x00000000      0x240
  *(.debug_loc)
+ .debug_loc     0x00000000      0x240 keypress_wireless_motion.o
 
 .debug_macinfo
  *(.debug_macinfo)
-OUTPUT(Gyrobot_basic_motion.elf elf32-avr)
+OUTPUT(keypress_wireless_motion.elf elf32-avr)
 LOAD linker stubs
+
+.debug_ranges   0x00000000       0x90
+ .debug_ranges  0x00000000       0x90 keypress_wireless_motion.o
