@@ -2,7 +2,7 @@
 #include<util/delay.h>
 
 void USARTInit () {
-   UBRRL = 103;
+   UBRRL = 51;
    UBRRH = 0;
 
 
@@ -59,40 +59,49 @@ void right()	// verified
 
 }
 
+void motion_pin_config()
+{
+	DDRB = 0b00001000;
+	DDRD = 0b10110000;
+}
+
 void main () {
 	USARTInit();
+	motion_pin_config();
 
-	DDRA = 0x03;
 	char data;
 	
 	while(1) {
 		data = USARTReadChar();
 		_delay_ms(500);
-		
+
+
+
 		if(data)
 		{
 			forward();
 			_delay_ms(2000);
+
+			stop();
 		}
 
-
-		if (data == '1')	{
+		if (data == 1)	{
 			forward();
 			_delay_ms(2000);
 			
 		}
 
-		if (data == '2') {
+		if (data == 2) {
 			backward();
 			_delay_ms(2000);
 		}
 
-		if (data == '3') {
+		if (data == 3) {
 			left();
 			_delay_ms(2000);
 		}
 
-		if (data == '4') {
+		if (data == 4) {
 			right();
 			_delay_ms(2000);
 		}

@@ -50,7 +50,20 @@ void main ()
 
 	port_init();
 	
+	while(1)
+	{
 	
+		forward();
 
+		_delay_ms(2000);
+
+		stop();
+
+		_delay_ms(500);
+	
+		backward();
+
+		_delay_ms(2000);
+
+	}
 }
-
