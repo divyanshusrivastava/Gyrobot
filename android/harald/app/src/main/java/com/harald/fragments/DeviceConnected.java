@@ -35,31 +35,31 @@ public class DeviceConnected extends Fragment {
     }
 
     public void commandButtonPressed(View v) {
-        int command;
+        char command;
 
         switch (v.getId()){
             case R.id.c1:
-                command = 1;
+                command = 'F';
                 break;
 
             case R.id.c2:
-                command = 2;
+                command = 'B';
                 break;
 
             case R.id.c3:
-                command = 3;
+                command = 'R';
                 break;
 
             case R.id.c4:
-                command = 4;
+                command = 'L';
                 break;
 
             case R.id.c5:
-                command = 5;
+                command = 'S';
                 break;
 
             case R.id.close_connection:
-                command = -1;
+                command = 'Q';
                 break;
 
             default:

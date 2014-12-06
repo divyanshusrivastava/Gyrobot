@@ -1,11 +1,10 @@
 #include<avr/io.h>
+#define F_CPU 16000000
 #include<util/delay.h>
 
 void USARTInit () {
    UBRRL = 51;
    UBRRH = 0;
-
-
    UCSRC=(1<<URSEL)|(3<<UCSZ0);
    UCSRB=(1<<TXCIE)|(1<<TXEN)|(1<<RXEN)|(1<<RXCIE);
 }
@@ -14,13 +13,23 @@ char USARTReadChar()
 {
    while(!(UCSRA & (1<<RXC)))
    {
-      //Do nothing
    }
-
-   //Now USART has got data from host
-   //and is available is buffer
-
    return UDR;
+}
+
+void USARTWriteChar(char data)
+{
+	while(!(UCSRA & (1<<UDRE)))
+   {
+   }
+	UDR=data;
+}
+
+
+void motion_pin_config()
+{
+	DDRB |= 0b00001000;
+	DDRD |= 0b10110000;
 }
 
 void forward()	// verified
@@ -54,16 +63,8 @@ void right()	// verified
 {
 	PORTB = 0b00001000;
 	PORTD = 0b00000000;
-
-
-
 }
 
-void motion_pin_config()
-{
-	DDRB = 0b00001000;
-	DDRD = 0b10110000;
-}
 
 void main () {
 	USARTInit();
@@ -75,35 +76,46 @@ void main () {
 		data = USARTReadChar();
 		_delay_ms(500);
 
+				
 
+		USARTWriteChar(data);
+		
 
-		if(data)
-		{
-			forward();
-			_delay_ms(2000);
-
+		if (data == 'F')	{
 			stop();
-		}
-
-		if (data == 1)	{
+			_delay_ms(500);
 			forward();
 			_delay_ms(2000);
+			stop();
+			_delay_ms(500);
 			
 		}
 
-		if (data == 2) {
+		if (data == 'B') {
+			stop();
+			_delay_ms(500);
 			backward();
 			_delay_ms(2000);
+			stop();
+			_delay_ms(500);
 		}
 
-		if (data == 3) {
+		if (data == 'L') {
+			stop();
+			_delay_ms(500);
 			left();
 			_delay_ms(2000);
+			stop();
+			_delay_ms(500);
 		}
 
-		if (data == 4) {
+		if (data == 'R') {
+			stop();
+			_delay_ms(500);
 			right();
 			_delay_ms(2000);
+			stop();
+			_delay_ms(500);
 		}
 		
 	}

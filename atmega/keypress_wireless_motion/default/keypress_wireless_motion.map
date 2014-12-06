@@ -112,7 +112,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x170
+.text           0x00000000      0x1f4
  *(.vectors)
  .vectors       0x00000000       0x54 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
                 0x00000000                __vectors
@@ -185,25 +185,26 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00000068                __vector_16
                 0x00000068                __vector_18
                 0x00000068                __vector_20
- .text          0x0000006c      0x100 keypress_wireless_motion.o
-                0x000000b0                motion_pin_config
-                0x000000a8                right
+ .text          0x0000006c      0x184 keypress_wireless_motion.o
+                0x00000084                USARTWriteChar
+                0x0000008c                motion_pin_config
+                0x000000ba                right
                 0x0000007c                USARTReadChar
-                0x000000a0                left
+                0x000000b2                left
                 0x0000006c                USARTInit
-                0x00000084                forward
-                0x0000008e                backward
-                0x000000ba                main
-                0x00000096                stop
- .text          0x0000016c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x0000016c                . = ALIGN (0x2)
+                0x00000096                forward
+                0x000000a0                backward
+                0x000000c2                main
+                0x000000a8                stop
+ .text          0x000001f0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x000001f0                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x0000016c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x0000016c                . = ALIGN (0x2)
+ .text.libgcc   0x000001f0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x000001f0                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000016c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x0000016c                exit
-                0x0000016c                _exit
+ .fini9         0x000001f0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x000001f0                exit
+                0x000001f0                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -222,11 +223,11 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000016c        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x000001f0        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000170                _etext = .
+                0x000001f4                _etext = .
 
-.data           0x00800060        0x0 load address 0x00000170
+.data           0x00800060        0x0 load address 0x000001f4
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
@@ -249,8 +250,8 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.bss*)
  *(COMMON)
                 0x00800060                PROVIDE (__bss_end, .)
-                0x00000170                __data_load_start = LOADADDR (.data)
-                0x00000170                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000001f4                __data_load_start = LOADADDR (.data)
+                0x000001f4                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800060        0x0
                 0x00800060                PROVIDE (__noinit_start, .)
@@ -314,36 +315,36 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00000000       0x20 keypress_wireless_motion.o
 
 .debug_pubnames
-                0x00000000       0x86
+                0x00000000       0x99
  *(.debug_pubnames)
  .debug_pubnames
-                0x00000000       0x86 keypress_wireless_motion.o
+                0x00000000       0x99 keypress_wireless_motion.o
 
-.debug_info     0x00000000      0x3d5
+.debug_info     0x00000000      0x684
  *(.debug_info)
- .debug_info    0x00000000      0x3d5 keypress_wireless_motion.o
+ .debug_info    0x00000000      0x684 keypress_wireless_motion.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x13e
+.debug_abbrev   0x00000000      0x169
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x13e keypress_wireless_motion.o
+ .debug_abbrev  0x00000000      0x169 keypress_wireless_motion.o
 
-.debug_line     0x00000000      0x3ca
+.debug_line     0x00000000      0x535
  *(.debug_line)
- .debug_line    0x00000000      0x3ca keypress_wireless_motion.o
+ .debug_line    0x00000000      0x535 keypress_wireless_motion.o
 
-.debug_frame    0x00000000       0xa0
+.debug_frame    0x00000000       0xb0
  *(.debug_frame)
- .debug_frame   0x00000000       0xa0 keypress_wireless_motion.o
+ .debug_frame   0x00000000       0xb0 keypress_wireless_motion.o
 
-.debug_str      0x00000000      0x13a
+.debug_str      0x00000000      0x149
  *(.debug_str)
- .debug_str     0x00000000      0x13a keypress_wireless_motion.o
-                                0x173 (size before relaxing)
+ .debug_str     0x00000000      0x149 keypress_wireless_motion.o
+                                0x182 (size before relaxing)
 
-.debug_loc      0x00000000      0x220
+.debug_loc      0x00000000      0x350
  *(.debug_loc)
- .debug_loc     0x00000000      0x220 keypress_wireless_motion.o
+ .debug_loc     0x00000000      0x350 keypress_wireless_motion.o
 
 .debug_macinfo
  *(.debug_macinfo)
