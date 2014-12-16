@@ -1,9 +1,8 @@
 #include<avr/io.h>
-#define F_CPU 16000000
 #include<util/delay.h>
 
 void USARTInit () {
-   UBRRL = 51;
+   UBRRL = 6;
    UBRRH = 0;
    UCSRC=(1<<URSEL)|(3<<UCSZ0);
    UCSRB=(1<<TXCIE)|(1<<TXEN)|(1<<RXEN)|(1<<RXCIE);
@@ -74,48 +73,51 @@ void main () {
 	
 	while(1) {
 		data = USARTReadChar();
-		_delay_ms(500);
+		_delay_ms(100);
 
-				
-
-		USARTWriteChar(data);
+/*				
+		if (data)
+		{
 		
+			backward();
+			_delay_ms(1000);
+			stop();
+			_delay_ms(500);
+		}
+	//	USARTWriteChar(data);
+*/		
 
 		if (data == 'F')	{
-			stop();
-			_delay_ms(500);
+		
 			forward();
-			_delay_ms(2000);
+			_delay_ms(200);
 			stop();
-			_delay_ms(500);
+			_delay_ms(100);
 			
 		}
 
 		if (data == 'B') {
-			stop();
-			_delay_ms(500);
+		
 			backward();
-			_delay_ms(2000);
+			_delay_ms(200);
 			stop();
-			_delay_ms(500);
+			_delay_ms(100);
 		}
 
 		if (data == 'L') {
-			stop();
-			_delay_ms(500);
+			
 			left();
-			_delay_ms(2000);
+			_delay_ms(200);
 			stop();
-			_delay_ms(500);
+			_delay_ms(100);
 		}
 
 		if (data == 'R') {
-			stop();
-			_delay_ms(500);
+		
 			right();
-			_delay_ms(2000);
+			_delay_ms(200);
 			stop();
-			_delay_ms(500);
+			_delay_ms(100);
 		}
 		
 	}

@@ -63,7 +63,7 @@ public class DeviceConnected extends Fragment {
                 break;
 
             default:
-                command = 0;
+                command = '0';
         }
 
         ((OnCommandIssuedListener) v.getContext()).onCommandIssued(command);
@@ -71,6 +71,6 @@ public class DeviceConnected extends Fragment {
     }
 
     public interface OnCommandIssuedListener {
-        public void onCommandIssued(int command);
+        public void onCommandIssued(char command);
     }
 }

@@ -60,7 +60,7 @@ public class Main extends Activity implements DeviceSelector.OnDeviceSelectedLis
     }
 
     @Override
-    public void onCommandIssued(int command) {
+    public void onCommandIssued(char command) {
         if (command > 0) writeToSocket(String.valueOf(command));
         else {
             writeToSocket("exit");

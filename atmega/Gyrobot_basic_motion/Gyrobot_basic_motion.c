@@ -38,8 +38,8 @@ void right()	// verified
 
 void port_init()
 {
-	DDRB = 0b00001000;
-	DDRD = 0b10110000;
+	DDRB |= 0b00001000;
+	DDRD |= 0b10110000;
 }
 	
 
@@ -65,5 +65,24 @@ void main ()
 
 		_delay_ms(2000);
 
+		stop();
+
+		_delay_ms(500);
+
+		left();
+
+		_delay_ms(2000);
+
+		stop();
+
+		_delay_ms(500);
+
+		right();
+
+		_delay_ms(2000);
+
+		stop();
+
+		_delay_ms(500);
 	}
 }
