@@ -39,27 +39,27 @@ public class DeviceConnected extends Fragment {
 
         switch (v.getId()){
             case R.id.c1:
-                command = 'F';
+                command = '1';
                 break;
 
             case R.id.c2:
-                command = 'B';
+                command = '2';
                 break;
 
             case R.id.c3:
-                command = 'R';
+                command = '3';
                 break;
 
             case R.id.c4:
-                command = 'L';
+                command = '4';
                 break;
 
             case R.id.c5:
-                command = 'S';
+                command = '5';
                 break;
 
             case R.id.close_connection:
-                command = 'Q';
+                command = '0';
                 break;
 
             default:
@@ -67,7 +67,7 @@ public class DeviceConnected extends Fragment {
         }
 
         ((OnCommandIssuedListener) v.getContext()).onCommandIssued(command);
-        Log.i("Command", String.valueOf(command));
+        //Log.i("Command", String.valueOf(command));
     }
 
     public interface OnCommandIssuedListener {

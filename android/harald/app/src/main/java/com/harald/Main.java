@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,9 +62,14 @@ public class Main extends Activity implements DeviceSelector.OnDeviceSelectedLis
 
     @Override
     public void onCommandIssued(char command) {
-        if (command > 0) writeToSocket(String.valueOf(command));
+        if (command != '0')  {
+            writeToSocket(String.valueOf(command));
+            Log.i("Command", String.valueOf(command));
+
+        }
         else {
             writeToSocket("exit");
+            Log.i("Command", String.valueOf(command));
 
             BTWiz.closeAllOpenSockets();
             BTWiz.cleanup(Main.this);

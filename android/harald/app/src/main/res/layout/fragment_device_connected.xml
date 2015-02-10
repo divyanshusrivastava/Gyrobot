@@ -1,96 +1,69 @@
-<TableLayout
+<RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
 
-        <Button
-            android:onClick="commandButtonPressed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:id="@+id/c1"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
+    <Button
+        android:onClick="commandButtonPressed"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="1"
+        android:id="@+id/c1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"/>
 
-    </TableRow>
+    <Button
+        android:onClick="commandButtonPressed"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="2"
+        android:id="@+id/c2"
+        android:layout_gravity="center_vertical"
+        android:layout_below="@+id/c1"
+        android:layout_toLeftOf="@+id/c1"
+        android:layout_toStartOf="@+id/c1" />
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    <Button
+        android:onClick="commandButtonPressed"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="3"
+        android:id="@+id/c3"
+        android:layout_gravity="center_vertical"
+        android:layout_below="@+id/c1"
+        android:layout_toRightOf="@+id/c1"
+        android:layout_toEndOf="@+id/c1" />
 
-        <Button
-            android:onClick="commandButtonPressed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="2"
-            android:id="@+id/c2"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
-    </TableRow>
+    <Button
+        android:onClick="commandButtonPressed"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="4"
+        android:id="@+id/c4"
+        android:layout_gravity="center_vertical"
+        android:layout_below="@+id/c2"
+        android:layout_centerHorizontal="true" />
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    <Button
+        android:onClick="commandButtonPressed"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="5"
+        android:id="@+id/c5"
+        android:layout_gravity="center_vertical"
+        android:layout_below="@+id/c1"
+        android:layout_centerHorizontal="true" />
 
-        <Button
-            android:onClick="commandButtonPressed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="3"
-            android:id="@+id/c3"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
-    </TableRow>
+    <Button
+        android:onClick="commandButtonPressed"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:text="close connection"
+        android:id="@+id/close_connection"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <Button
-            android:onClick="commandButtonPressed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="4"
-            android:id="@+id/c4"
-            android:layout_column="0"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <Button
-            android:onClick="commandButtonPressed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="5"
-            android:id="@+id/c5"
-            android:layout_column="10"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <Button
-            android:onClick="commandButtonPressed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="close connection"
-            android:id="@+id/close_connection"
-            android:layout_column="21"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
-    </TableRow>
-</TableLayout>
+</RelativeLayout>
