@@ -3,6 +3,11 @@ package com.harald;
 import android.app.Activity;
 import android.app.Fragment;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,8 +25,11 @@ import com.harald.listners.DeviceListing.DeviceSelector;
 import java.io.IOException;
 
 
-public class Main extends Activity implements DeviceSelector.OnDeviceSelectedListener, DeviceConnected.OnCommandIssuedListener {
+public class Main extends Activity implements SensorEventListener, DeviceSelector.OnDeviceSelectedListener, DeviceConnected.OnCommandIssuedListener {
 
+    private boolean flag = false;
+    private SensorManager sensorManager;
+    private Sensor msensor;
     BTSocket socket;
 
     @Override
@@ -36,6 +44,23 @@ public class Main extends Activity implements DeviceSelector.OnDeviceSelectedLis
             .add(R.id.container, new DeviceListing())
             .commit()
         ;
+
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        msensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+        if(sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null)
+        {
+            Log.i("DEBUG","sensor found");
+            // Sensor FOUND
+        }
+        else
+        {
+            Log.i("DEBUG","sensor missing");
+            //Sensor NOT FOUND
+        }
+
+        //sensorManager.registerListener(this, msensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -79,6 +104,57 @@ public class Main extends Activity implements DeviceSelector.OnDeviceSelectedLis
                     .replace(R.id.container, new DeviceListing())
                     .commit();
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        Sensor mySensor = sensorEvent.sensor;
+        String str = "";
+
+        if (mySensor.getType() == Sensor.TYPE_GYROSCOPE) {
+            float x = sensorEvent.values[0];
+            float y = sensorEvent.values[1];
+            float z = sensorEvent.values[2];
+
+            if (flag) {
+                //Log.i("GyroData", String.valueOf(x));
+                str = "";
+                str = "\n"+String.valueOf(x)+"\t "+String.valueOf(y)+"\t "+String.valueOf(z);
+
+                writeToSocket(str);
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+
+    }
+
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this, msensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+
+
+    @Override
+    public void onLogStart() {
+        Log.i("DEBUG","onLogStart() called");
+        sensorManager.registerListener(this, msensor, SensorManager.SENSOR_DELAY_NORMAL);
+        flag = true;
+    }
+
+    @Override
+    public void onLogStop() {
+        sensorManager.unregisterListener(this);
+        flag = false;
     }
 
     public void writeToSocket(String s) {

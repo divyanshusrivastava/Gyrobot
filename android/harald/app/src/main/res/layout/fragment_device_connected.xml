@@ -12,7 +12,7 @@
         android:id="@+id/c1"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"/>
+        android:layout_marginTop="80dp"/>
 
     <Button
         android:onClick="commandButtonPressed"
@@ -65,5 +65,26 @@
         android:layout_gravity="center_vertical"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:onClick="commandButtonPressed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="START"
+        android:id="@+id/start"
+        android:layout_below="@+id/c4"
+        android:layout_alignLeft="@+id/c2"
+        android:layout_alignStart="@+id/c2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="commandButtonPressed"
+        android:text="STOP"
+        android:id="@+id/stop"
+        android:layout_alignTop="@+id/start"
+        android:layout_alignRight="@+id/c3"
+        android:layout_alignEnd="@+id/c3" />
+
 
 </RelativeLayout>

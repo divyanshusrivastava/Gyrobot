@@ -2,6 +2,9 @@ package com.harald.fragments;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -14,6 +17,7 @@ import com.harald.R;
 
 public class DeviceConnected extends Fragment {
     Activity activity;
+    int flag = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,17 @@ public class DeviceConnected extends Fragment {
                 command = '5';
                 break;
 
+            case R.id.start:
+                //flag = 1;
+                log_gyro_data(v);
+                command = '6';
+                break;
+
+            case R.id.stop:
+                unlog_gyro_data(v);
+                command = '7';
+                break;
+
             case R.id.close_connection:
                 command = '0';
                 break;
@@ -66,11 +81,25 @@ public class DeviceConnected extends Fragment {
                 command = '0';
         }
 
-        ((OnCommandIssuedListener) v.getContext()).onCommandIssued(command);
-        //Log.i("Command", String.valueOf(command));
+        if (command < '6') {
+            ((OnCommandIssuedListener) v.getContext()).onCommandIssued(command);
+            Log.i("Command", String.valueOf(command));
+        }
     }
 
     public interface OnCommandIssuedListener {
         public void onCommandIssued(char command);
+        public void onLogStart();
+        public void onLogStop();
+    }
+
+    public void log_gyro_data(View v) {
+        Log.i("DEBUG","log_gyro_data() called");
+        ((OnCommandIssuedListener) v.getContext()).onLogStart();
+
+    }
+
+    public void unlog_gyro_data(View v) {
+        ((OnCommandIssuedListener) v.getContext()).onLogStop();
     }
 }
